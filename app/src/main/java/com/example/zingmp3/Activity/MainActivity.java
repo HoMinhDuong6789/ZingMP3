@@ -1,8 +1,10 @@
-package com.example.zingmp3;
+package com.example.zingmp3.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.zingmp3.R;
 
 public class MainActivity extends AppCompatActivity {
 
