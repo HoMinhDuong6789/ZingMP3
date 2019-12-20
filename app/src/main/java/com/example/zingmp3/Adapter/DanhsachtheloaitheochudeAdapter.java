@@ -12,70 +12,64 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.zingmp3.Activity.DanhsachbaihatActivity;
-import com.example.zingmp3.Model.Album;
+import com.example.zingmp3.Model.TheLoai;
 import com.example.zingmp3.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder>{
+public class DanhsachtheloaitheochudeAdapter extends RecyclerView.Adapter<DanhsachtheloaitheochudeAdapter.ViewHolder>{
 
     Context context;
-    ArrayList<Album> mangalbum;
+    ArrayList<TheLoai> theLoaiArrayList;
 
-    public AlbumAdapter(Context context, ArrayList<Album> mangalbum) {
+    public DanhsachtheloaitheochudeAdapter(Context context, ArrayList<TheLoai> theLoaiArrayList) {
         this.context = context;
-        this.mangalbum = mangalbum;
+        this.theLoaiArrayList = theLoaiArrayList;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.dong_album, parent, false);
+        View view = inflater.inflate(R.layout.dong_theloaitheochude, parent, false);
         return new ViewHolder(view);
-
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Album album= mangalbum.get(position);
-        holder.txttencasialbum.setText(album.getTencasi());
-        holder.txttenalbum.setText(album.getTenalbum());
-        Picasso.with(context).load(album.getHinhalbum()).into(holder.imghinhalbum);
-
+       TheLoai theLoai  = theLoaiArrayList.get(position);
+        Picasso.with(context).load(theLoai.getHinhtheloai()).into(holder.imghinhnen);
+        holder.txtthetheloai.setText(theLoai.getTentheloai());
     }
 
     @Override
     public int getItemCount() {
-        return mangalbum.size();
+        return  theLoaiArrayList.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
-         ImageView imghinhalbum;
-         TextView txttenalbum, txttencasialbum;
 
-         public ViewHolder(@NonNull View itemView) {
-             super(itemView);
-             imghinhalbum = itemView.findViewById(R.id.imageviewalbum);
-             txttenalbum = itemView.findViewById(R.id.textviewtenalbum);
-             txttencasialbum = itemView.findViewById(R.id.textviewtencasialbum);
+    class ViewHolder extends RecyclerView.ViewHolder{
+
+        ImageView imghinhnen;
+        TextView txtthetheloai;
+
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            imghinhnen = itemView.findViewById(R.id.imageviewtheloaitheochude);
+            txtthetheloai = itemView.findViewById(R.id.textviewtentheloaitheochude);
+
+
+            // bat su kien cho cac item, khi click vao
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, DanhsachbaihatActivity.class);
-                    intent.putExtra("album", mangalbum.get(getPosition()));
+                    intent.putExtra("idtheloai", theLoaiArrayList.get(getPosition()));
                     context.startActivity(intent);
-
                 }
             });
-
-
-         }
-
-
-     }
-
-
-
+        }
+    }
 }

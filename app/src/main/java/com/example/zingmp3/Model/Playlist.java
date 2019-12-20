@@ -3,17 +3,24 @@ package com.example.zingmp3.Model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Playlist {
+import java.io.Serializable;
+
+public class Playlist implements Serializable {
 
 @SerializedName("idplaylist")
 @Expose
 private String idplaylist;
+
 @SerializedName("ten")
 @Expose
 private String ten;
+
+
 @SerializedName("hinhanh")
 @Expose
 private String hinhanh;
+
+
 @SerializedName("hinhicon")
 @Expose
 private String hinhicon;

@@ -1,5 +1,6 @@
 package com.example.zingmp3.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.zingmp3.Activity.DanhsachtatcaAlbumActivity;
 import com.example.zingmp3.Adapter.AlbumAdapter;
 import com.example.zingmp3.Model.Album;
 import com.example.zingmp3.R;
@@ -38,6 +40,14 @@ public class Fragment_Album extends Fragment {
         view = inflater.inflate(R.layout.fragment_album, container, false);
         recyclerViewAlbum = view.findViewById(R.id.recycleviewAlbum);
         txtxemthemalbum = view.findViewById(R.id.textviewxemthemAlbum);
+        txtxemthemalbum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent= new Intent(getActivity(), DanhsachtatcaAlbumActivity.class);
+                startActivity(intent);
+
+            }
+        });
         getData();
         return view;
     }

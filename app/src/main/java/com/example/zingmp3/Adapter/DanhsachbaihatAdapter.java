@@ -17,7 +17,6 @@ import com.example.zingmp3.Model.BaiHat;
 import com.example.zingmp3.R;
 import com.example.zingmp3.Service.APIService;
 import com.example.zingmp3.Service.DataService;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -25,70 +24,57 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class BaiHatHotAdapter extends RecyclerView.Adapter<BaiHatHotAdapter.ViewHolder> {
-    Context context;
-    ArrayList<BaiHat> mangbaihathot;
+public class DanhsachbaihatAdapter extends RecyclerView.Adapter<DanhsachbaihatAdapter.ViewHolder>{
 
-    public BaiHatHotAdapter(Context context, ArrayList<BaiHat> mangbaihathot) {
+    Context context;
+    ArrayList<BaiHat> mangbaihat;
+
+    public DanhsachbaihatAdapter(Context context, ArrayList<BaiHat> mangbaihat) {
         this.context = context;
-        this.mangbaihathot = mangbaihathot;
+        this.mangbaihat = mangbaihat;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-    //  dung de gan layout, va xac dinh nhung view se xuat hien tren layout nay
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.dong_baihathot, parent, false);
+        View view = inflater.inflate(R.layout.dong_danhsachbaihat, parent, false);
 
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        // dung de gan du lieu vao
-        BaiHat baiHat= mangbaihathot.get(position);
-        holder.txtCasi.setText(baiHat.getCasi());
-        holder.txtTen.setText(baiHat.getTenbaihat());
-        Picasso.with(context).load(baiHat.getHinhbaihat()).into(holder.imgHinh);
+          BaiHat baiHat= mangbaihat.get(position);
+          holder.txtcasi.setText(baiHat.getCasi());
+          holder.txttenbaihat.setText(baiHat.getTenbaihat());
+          holder.txtindex.setText(position+ "1");
 
     }
 
     @Override
     public int getItemCount() {
-        return mangbaihathot.size();
+        return mangbaihat.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
-            TextView txtTen, txtCasi;
-            ImageView imgHinh, imgLuotthich;
+    class ViewHolder extends RecyclerView.ViewHolder{
+            TextView txtindex, txttenbaihat, txtcasi;
+            ImageView imgluotthich;
 
-        public ViewHolder(View itemView) {
+
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            txtTen = itemView.findViewById(R.id.textviewtenbaihathot);
-            txtCasi= itemView.findViewById(R.id.textviewcasibaihathot);
-            imgHinh=itemView.findViewById(R.id.imageviewbaihathot);
-            imgLuotthich = itemView.findViewById(R.id.imageviewluotthich);
-
-
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(context, PlayNhacActivity.class);
-                    intent.putExtra("cakhuc", mangbaihathot.get(getPosition()));
-                    context.startActivity(intent);
-                }
-            });
-
-
-            imgLuotthich.setOnClickListener(new View.OnClickListener() {
+            txtcasi = itemView.findViewById(R.id.textviewtencasi);
+            txtindex= itemView.findViewById(R.id.textviewdanhsachindex);
+            txttenbaihat= itemView.findViewById(R.id.textviewtenbaihat);
+            imgluotthich = itemView.findViewById(R.id.imageviewluotthichdanhsachbaihat);
+            imgluotthich.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // Toast.makeText(context,mangbaihathot.get(getPosition()).getLuotthich(), Toast.LENGTH_SHORT).show();
-                    imgLuotthich.setImageResource(R.drawable.iconloved);
+                    imgluotthich.setImageResource(R.drawable.iconloved);
                     DataService dataService = APIService.getService();
-                    Call<String> callback = dataService.Updateluotthich(mangbaihathot.get(getPosition()).getIdbaihat());
+                    Call<String> callback = dataService.Updateluotthich(mangbaihat.get(getPosition()).getIdbaihat());
                     callback.enqueue(new Callback<String>() {
                         @Override
                         public void onResponse(Call<String> call, Response<String> response) {
@@ -105,7 +91,18 @@ public class BaiHatHotAdapter extends RecyclerView.Adapter<BaiHatHotAdapter.View
 
                         }
                     });
-                    imgLuotthich.setEnabled(false);
+                    imgluotthich.setEnabled(false);
+                }
+            });
+
+
+            //set su kein cho
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                   /* Intent intent = new Intent(context, PlayNhacActivity.class);
+                    intent.putExtra("cakhuc", mangbaihat.get(getPosition()));
+                    context.startActivity(intent);*/
                 }
             });
         }

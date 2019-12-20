@@ -1,5 +1,6 @@
 package com.example.zingmp3.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,9 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import com.example.zingmp3.Activity.DanhsachbaihatActivity;
+import com.example.zingmp3.Activity.DanhsachtatcachudeActivity;
+import com.example.zingmp3.Activity.DanhsachtheloaitheochudeActivity;
 import com.example.zingmp3.Model.ChuDe;
 import com.example.zingmp3.Model.ChuDeTheLoaiTrongNgay;
 import com.example.zingmp3.Model.TheLoai;
@@ -42,6 +46,13 @@ public class Fragment_ChuDe_TheLoai_ToDay extends Fragment {
         view = inflater.inflate(R.layout.fragment_chude_theloai_today, container, false);
         horizontalScrollView = view.findViewById(R.id.horizontalScrollview);
         txtxemthemchidetheloai = view.findViewById(R.id.textviewxemthem);
+        txtxemthemchidetheloai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent= new Intent(getActivity(), DanhsachtatcachudeActivity.class);
+                startActivity(intent);
+            }
+        });
         getData();
         return view;
     }
@@ -64,6 +75,7 @@ public class Fragment_ChuDe_TheLoai_ToDay extends Fragment {
                     linearLayout.setOrientation(LinearLayout.HORIZONTAL);
                     LinearLayout.LayoutParams layout = new LinearLayout.LayoutParams(580, 250);
                     layout.setMargins(10, 20, 10, 30);
+                    // hinh anh cua chu de
                     for (int i=0; i< (chuDeArrayList.size()); i++){
                         CardView cardView = new CardView(getActivity());
                         cardView.setRadius(10);
@@ -76,9 +88,18 @@ public class Fragment_ChuDe_TheLoai_ToDay extends Fragment {
                         cardView.setLayoutParams(layout);
                         cardView.addView(imageView);
                         linearLayout.addView(cardView);
+                        final int finalI = i;
+                        imageView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(getActivity(), DanhsachtheloaitheochudeActivity.class);
+                                intent.putExtra("chude", chuDeArrayList.get(finalI));
+                                startActivity(intent);
+                            }
+                        });
                     }
 
-                    //the loai
+                    //hinh anh the loai
                     for (int i=0; i< (chuDeArrayList.size()); i++){
                         CardView cardView = new CardView(getActivity());
                         cardView.setRadius(10);
@@ -86,11 +107,21 @@ public class Fragment_ChuDe_TheLoai_ToDay extends Fragment {
                         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                         if (theLoaiArrayList.get(i).getHinhtheloai()!=null){
                             Picasso.with(getActivity()).load(theLoaiArrayList.get(i).getHinhtheloai()).into(imageView);
-
                         }
                         cardView.setLayoutParams(layout);
                         cardView.addView(imageView);
                         linearLayout.addView(cardView);
+                        // ta co the bat su kien tren cardview or imageview deu duoc
+                        // thang i dang nam trong function trong the truy xuat duoc trong function bat su kien nen tao ra bien
+                       /* final int finalI = i;
+                        cardView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(getActivity(), DanhsachbaihatActivity.class);
+                                intent.putExtra("idtheloai", theLoaiArrayList.get(finalI).getIdtheloai());
+                                startActivity(intent);
+                            }
+                        });*/
                     }
                     horizontalScrollView.addView(linearLayout);
                 }

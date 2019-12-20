@@ -1,9 +1,14 @@
 package com.example.zingmp3.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class BaiHat {
+import java.io.Serializable;
+
+public class BaiHat implements Parcelable {
 
 @SerializedName("idbaihat")
 @Expose
@@ -33,7 +38,31 @@ private String linkbaihat;
 @Expose
 private String luotthich;
 
-public String getIdbaihat() {
+    protected BaiHat(Parcel in) {
+        idbaihat = in.readString();
+        idalbum = in.readString();
+        idtheloai = in.readString();
+        idplaylist = in.readString();
+        tenbaihat = in.readString();
+        hinhbaihat = in.readString();
+        casi = in.readString();
+        linkbaihat = in.readString();
+        luotthich = in.readString();
+    }
+
+    public static final Creator<BaiHat> CREATOR = new Creator<BaiHat>() {
+        @Override
+        public BaiHat createFromParcel(Parcel in) {
+            return new BaiHat(in);
+        }
+
+        @Override
+        public BaiHat[] newArray(int size) {
+            return new BaiHat[size];
+        }
+    };
+
+    public String getIdbaihat() {
 return idbaihat;
 }
 
@@ -105,4 +134,21 @@ public void setLuotthich(String luotthich) {
 this.luotthich = luotthich;
 }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(idbaihat);
+        dest.writeString(idalbum);
+        dest.writeString(idtheloai);
+        dest.writeString(idplaylist);
+        dest.writeString(tenbaihat);
+        dest.writeString(hinhbaihat);
+        dest.writeString(casi);
+        dest.writeString(linkbaihat);
+        dest.writeString(luotthich);
+    }
 }

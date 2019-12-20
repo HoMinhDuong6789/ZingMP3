@@ -12,7 +12,7 @@
         android:id="@+id/textviewtitleplaylist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="ÂM HƯỞNG CUỘC SỐNG"
+        android:text="NHỊP ĐIỆU CUỘC SỐNG"
         ></TextView>
     <ListView
         android:layout_below="@+id/textviewtitleplaylist"

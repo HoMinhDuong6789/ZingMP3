@@ -18,64 +18,56 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder>{
+public class AllAlbumAdapter extends RecyclerView.Adapter<AllAlbumAdapter.ViewHolder>{
 
     Context context;
-    ArrayList<Album> mangalbum;
+    ArrayList<Album> albumArrayList;
 
-    public AlbumAdapter(Context context, ArrayList<Album> mangalbum) {
+    public AllAlbumAdapter(Context context, ArrayList<Album> albumArrayList) {
         this.context = context;
-        this.mangalbum = mangalbum;
+        this.albumArrayList = albumArrayList;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.dong_album, parent, false);
+        View view = inflater.inflate(R.layout.dong_allalbum, parent, false);
         return new ViewHolder(view);
-
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Album album= mangalbum.get(position);
-        holder.txttencasialbum.setText(album.getTencasi());
-        holder.txttenalbum.setText(album.getTenalbum());
-        Picasso.with(context).load(album.getHinhalbum()).into(holder.imghinhalbum);
+        Album album = albumArrayList.get(position);
+        Picasso.with(context).load(album.getHinhalbum()).into(holder.imgallalbum);
+        holder.txttenallalbum.setText(album.getTenalbum());
+
 
     }
 
     @Override
     public int getItemCount() {
-        return mangalbum.size();
+        return albumArrayList.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
-         ImageView imghinhalbum;
-         TextView txttenalbum, txttencasialbum;
+    class ViewHolder extends RecyclerView.ViewHolder  {
+        ImageView imgallalbum;
+        TextView txttenallalbum;
 
-         public ViewHolder(@NonNull View itemView) {
-             super(itemView);
-             imghinhalbum = itemView.findViewById(R.id.imageviewalbum);
-             txttenalbum = itemView.findViewById(R.id.textviewtenalbum);
-             txttencasialbum = itemView.findViewById(R.id.textviewtencasialbum);
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            imgallalbum = itemView.findViewById(R.id.imageviewallalbum);
+            txttenallalbum = itemView.findViewById(R.id.textviewtenallalbum);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, DanhsachbaihatActivity.class);
-                    intent.putExtra("album", mangalbum.get(getPosition()));
+                    intent.putExtra("album", albumArrayList.get(getPosition()));
                     context.startActivity(intent);
-
                 }
             });
 
-
-         }
-
-
-     }
-
-
+        }
+    }
 
 }
