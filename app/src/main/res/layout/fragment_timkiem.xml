@@ -1,7 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#2A1551">
+    android:background="#FF6544B3">
 
-</LinearLayout>
+    <com.google.android.material.appbar.AppBarLayout
+        android:background="#3e3ee2"
+        android:id="@+id/appbarlayoutsearchbaihat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbarcearchbaihat"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"></androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@+id/appbarlayoutsearchbaihat"
+        android:id="@+id/recycleviewsearchbaihat"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
+    <TextView
+        android:visibility="gone"
+        android:textColor="#f20"
+        android:gravity="center"
+        android:text="Không có dữ liệu về bài hát"
+        android:id="@+id/textviewkhongcodulieubaihat"
+        android:textSize="30sp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></TextView>
+
+
+</RelativeLayout>

@@ -178,6 +178,8 @@ public class PlayNhacActivity extends AppCompatActivity {
                         new PlayMp3().execute(mangbaihat.get(position).getLinkbaihat());
                         fragment_dianhac.PlayNhac(mangbaihat.get(position).getHinhbaihat());
                         getSupportActionBar().setTitle(mangbaihat.get(position).getTenbaihat());
+
+                        UpdateTime();
                     }
                 }
                 // set su kien nguoi dung click nhieu qua
@@ -225,6 +227,8 @@ public class PlayNhacActivity extends AppCompatActivity {
                         new PlayMp3().execute(mangbaihat.get(position).getLinkbaihat());
                         fragment_dianhac.PlayNhac(mangbaihat.get(position).getHinhbaihat());
                         getSupportActionBar().setTitle(mangbaihat.get(position).getTenbaihat());
+
+                        UpdateTime();
                     }
                 }
                 // set su kien nguoi dung click nhieu qua
@@ -340,6 +344,7 @@ public class PlayNhacActivity extends AppCompatActivity {
              }
              mediaPlayer.start();
              TimeSong();
+             UpdateTime();
          }
 
          // tao thu tu phat mot danh sach ca khuc nao do
@@ -350,5 +355,88 @@ public class PlayNhacActivity extends AppCompatActivity {
         txtTotaltimesong.setText(simpleDateFormat.format(mediaPlayer.getDuration()));
         skttime.setMax(mediaPlayer.getDuration());
     }
+
+    private void UpdateTime(){
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(mediaPlayer!=null){
+                    skttime.setProgress(mediaPlayer.getCurrentPosition());
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("mm:ss");
+                    txtTimesong.setText(simpleDateFormat.format(mediaPlayer.getCurrentPosition()));
+                    handler.postDelayed(this, 300);
+                    mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(MediaPlayer mp) {
+                            next= true;
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
+            }
+        }, 300);
+        final Handler handler1 = new Handler();
+        handler1.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(next ==true){
+                    if(mangbaihat.size()>0){
+                        if(mediaPlayer.isPlaying() || mediaPlayer!=null){
+                            mediaPlayer.stop();
+                            mediaPlayer.release();
+                            mediaPlayer =null;
+                        }
+                        if(position<(mangbaihat.size())){
+                            imgplay.setImageResource(R.drawable.iconpause);
+                            position++;
+                            if(repeat==true){
+                                if(position==0){
+                                    position= mangbaihat.size();
+
+                                }
+                                position-=1;
+                            }
+                            if(checkrandom==true){
+                                Random random = new Random();
+                                int index= random.nextInt(mangbaihat.size());
+                                if(index == position){
+                                    position=index-1;
+                                }
+                                position = index;
+                            }
+                            if(position>(mangbaihat.size()-1)){
+                                position =0;
+
+                            }
+                            new PlayMp3().execute(mangbaihat.get(position).getLinkbaihat());
+                            fragment_dianhac.PlayNhac(mangbaihat.get(position).getHinhbaihat());
+                            getSupportActionBar().setTitle(mangbaihat.get(position).getTenbaihat());
+                        }
+                    }
+                    // set su kien nguoi dung click nhieu qua
+                    imgpre.setClickable(false);
+                    imgnext.setClickable(false);
+                    Handler handler1= new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            imgpre.setClickable(true);
+                            imgnext.setClickable(true);
+                        }
+                    },3000);
+                    next= false;
+                    handler1.removeCallbacks(this);
+                }else{
+                    handler1.postDelayed(this, 1000);
+                }
+            }
+        }, 1000 );
+    }
+
 
 }

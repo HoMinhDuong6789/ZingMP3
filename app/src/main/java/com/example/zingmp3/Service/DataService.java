@@ -81,6 +81,12 @@ public interface DataService {
     @POST("theloaitheochude.php")
     Call<List<TheLoai>> GetTheloaitheochude(@Field("idchude") String idchude);
 
+    @FormUrlEncoded
+    @POST("searchbaihat.php")
+    Call<List<BaiHat>> GetSearchbaihat(@Field("tukhoa") String tukhoa);
+
+
+
 
 
 }
