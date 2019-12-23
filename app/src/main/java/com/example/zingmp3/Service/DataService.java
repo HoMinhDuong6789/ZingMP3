@@ -9,7 +9,6 @@ import com.example.zingmp3.Model.QuangCao;
 import com.example.zingmp3.Model.TheLoai;
 
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -84,9 +83,4 @@ public interface DataService {
     @FormUrlEncoded
     @POST("searchbaihat.php")
     Call<List<BaiHat>> GetSearchbaihat(@Field("tukhoa") String tukhoa);
-
-
-
-
-
 }

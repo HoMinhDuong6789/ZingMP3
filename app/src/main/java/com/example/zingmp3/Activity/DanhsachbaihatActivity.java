@@ -230,16 +230,13 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
         if (intent != null) {
             if (intent.hasExtra("banner")) {
                 quangCao = (QuangCao) intent.getSerializableExtra("banner");
-               // Toast.makeText(this, quangCao.getTenbaihat(), Toast.LENGTH_SHORT).show();
             }
             if(intent.hasExtra("itemplaylist")){
                 playlist = (Playlist) intent.getSerializableExtra("itemplaylist");
-                //Toast.makeText(this, playlist.getIdplaylist(), Toast.LENGTH_SHORT).show();
             }
 
             if(intent.hasExtra("idtheloai")){
                 theLoai = (TheLoai) intent.getSerializableExtra("idtheloai");
-                Toast.makeText(this, playlist.getIdplaylist(), Toast.LENGTH_SHORT).show();
             }
 
             if(intent.hasExtra("album")){

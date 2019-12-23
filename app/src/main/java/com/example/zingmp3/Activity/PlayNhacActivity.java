@@ -2,13 +2,19 @@ package com.example.zingmp3.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
@@ -23,6 +29,7 @@ import com.example.zingmp3.Fragment.Fragment_Dianhac;
 import com.example.zingmp3.Fragment.Fragment_playdanhsachcacbaihat;
 import com.example.zingmp3.Model.BaiHat;
 import com.example.zingmp3.R;
+import com.example.zingmp3.Service.MusicService;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -44,6 +51,14 @@ public class PlayNhacActivity extends AppCompatActivity {
     Fragment_playdanhsachcacbaihat fragment_playdanhsachcacbaihat;
     MediaPlayer mediaPlayer;
 
+    //play notification
+    private final int NOTIFICATION_ID = 001;
+    private final String CHANNEL_ID = "TheNotification";
+    private final String CHANNEL_NAME = "The Notification";
+    private final String CHANNEL_DESC = "The Notification System for The App";
+    String tenbaihat="";
+
+
     //
     int position =0;// vi tri cac ca khuc, de next, pre
     boolean repeat= false;
@@ -60,6 +75,15 @@ public class PlayNhacActivity extends AppCompatActivity {
         GetDataFromIntent();
         init();
         eventClick();
+
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
+            NotificationChannel channel = new NotificationChannel(
+                    CHANNEL_ID,CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT
+            );
+            channel.setDescription(CHANNEL_DESC);
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
     }
 
     private void eventClick() {
@@ -83,12 +107,17 @@ public class PlayNhacActivity extends AppCompatActivity {
                 if(mediaPlayer.isPlaying()){
                    mediaPlayer.pause();
                    imgplay.setImageResource(R.drawable.iconplay);
+                   //MusicService.class
                 }else{
                     mediaPlayer.start();
                     imgplay.setImageResource(R.drawable.iconpause);
+                    displayNotification();
                 }
             }
         });
+
+
+
 
         imgrepeat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -249,6 +278,22 @@ public class PlayNhacActivity extends AppCompatActivity {
 
     }
 
+    // ham tao thong bao toolbar
+    private void displayNotification(){
+       // Intent landingIntent= new Intent(this, activity_landing.class);
+       //   PendingIntent landingPendingIntent = PendingIntent.getActivity(this, 0, landingIntent, PendingIntent.FLAG_ONE_SHOT);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this,CHANNEL_ID)
+                .setSmallIcon(R.drawable.icon)
+                .setContentTitle(tenbaihat)
+                .setContentText("Playing")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        builder.setAutoCancel(true);
+        //  builder.setContentIntent(landingPendingIntent);
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
+        notificationManagerCompat.notify(NOTIFICATION_ID, builder.build());
+    }
+
+
     private void GetDataFromIntent() {
         Intent intent = getIntent();
         mangbaihat.clear();
@@ -303,6 +348,7 @@ public class PlayNhacActivity extends AppCompatActivity {
 
         if(mangbaihat.size()>0){
             getSupportActionBar().setTitle(mangbaihat.get(0).getTenbaihat());
+            tenbaihat =mangbaihat.get(0).getTenbaihat();
             new PlayMp3().execute(mangbaihat.get(0).getLinkbaihat());
             imgplay.setImageResource(R.drawable.iconpause);
         }
